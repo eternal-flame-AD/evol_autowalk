@@ -1,5 +1,6 @@
 #evol_auto
 自动完成恋与制作人安卓端城市漫步
+  
   截屏部分参考了@wangshub的代码https://github.com/wangshub/wechat_jump_game
 
 ##教程
