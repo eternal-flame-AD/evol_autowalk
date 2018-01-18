@@ -1,0 +1,8 @@
+================
+V1.1
+1. Use im.getpixel for better performance
+2. Added auto image resizing and rotating
+3. Added "adb connect remote_address"
+4. Tested on Bluestacks(1920x1080 1280x720)
+================
+V1.0 prerelease

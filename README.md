@@ -1,5 +1,1 @@
-# evol_autowalk
-auto completes city walk/恋与制作人-自动进行城市漫步
-
-截屏部分参考了wangshub/wechat_jump_game的代码（Apache License 2.0  wechat_jump_game/LICENSE ）
-
+##教程1. 安装Pillow库	 > git install Pillow2. 连接手机或模拟器打开usb调试 3. 运行evol_auto.py，如需要网络ADB 输入y之后输入地址（experimental)##Current issues1.  完成后自动结束和三选一还有一些问题偶尔卡住
