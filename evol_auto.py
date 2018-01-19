@@ -66,8 +66,6 @@ def detect_loc(im): #228 117 191 220 115 140
                     return True
     return False
 def detect_comp(im):
-    if pixel_match(im,603,223,255,255,255,3) and pixel_match(im,606,236,255,255,255,3) and pixel_match(im,598,222,255,255,255,3) and pixel_match(im,331,1610,250,150,153,10) and (not pixel_match(im,1016,133,255,255,255,8)):
-        return True
     return False
 def drift():
     return random.uniform(10,30)
@@ -134,6 +132,7 @@ def main():
     screenshot.check_screenshot()
     screenshot.pull_screenshot()
     im = Image.open('./autojump.png')
+#    refimg=Image.open('./comp_ref.bmp')
     width,height=im.size
     need_rotate=False
     need_resize=False
