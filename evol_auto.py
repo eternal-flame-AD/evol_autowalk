@@ -155,20 +155,29 @@ def main():
     while True:
         print("Pull_screenshot...",end=" ")
         screenshot.pull_screenshot()
-        im = Image.open('./autojump.png')
-        if need_rotate:
-            print("Rotating...",end=" ")
-            im=im.transpose(Image.ROTATE_90)
-            width=width+height
-            height=width-height
-            width=width-height
-        if need_resize:
-            print("Resizing...,",end=" ")
-            im=im.resize((1080,1920))
-        print("Parsing...",end=" ")
-        Determine_status(im)
-        if (routcount==151) or (routcount==150):  
-            do_3sel()
-#        time.sleep(random.uniform(0.1, 0.5))
-        im.close()
+        try:
+            im = Image.open('./autojump.png')
+            success=True
+        except:
+            success=False
+            try:
+                im.close()
+            except:
+                print("screenshot_error")
+        if success:
+            if need_rotate:
+                print("Rotating...",end=" ")
+                im=im.transpose(Image.ROTATE_90)
+                width=width+height
+                height=width-height
+                width=width-height
+            if need_resize:
+                print("Resizing...,",end=" ")
+                im=im.resize((1080,1920))
+            print("Parsing...",end=" ")
+            Determine_status(im)
+            if (routcount==151) or (routcount==150):  
+                do_3sel()
+    #        time.sleep(random.uniform(0.1, 0.5))
+            im.close()
 main()
