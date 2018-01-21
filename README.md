@@ -1,9 +1,9 @@
-#evol_auto
+# evol_auto
 自动完成恋与制作人安卓端城市漫步
   
   截屏部分参考了@wangshub的代码https://github.com/wangshub/wechat_jump_game
 
-##教程
+## 教程
 1. 安装Pillow库
 	 > git install Pillow
 
@@ -15,6 +15,5 @@
 
 5. Ctrl+C中断或程序自动判断已刷完 
 
-##Current issues
-1.  完成后自动结束和三选一还有一些问题偶尔卡住
-
+## Current issues
+  三选时效率较低
