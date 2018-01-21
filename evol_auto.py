@@ -52,12 +52,16 @@ def pixel_match(im,target_x,target_y,target_r,target_g,target_b,diff,debug=False
     else:
         return False
 def detect_selection(im):
+    if detect_main_menu(im):
+        return False
     for cy in range(192,1000):
         if pixel_match(im,220,cy,250,125,147,30) and pixel_match(im,680,cy,250,125,147,30) and pixel_match(im,890,cy,250,125,147,30):
             return True
     return False
 def detect_loc(im): #228 117 191 220 115 140
     global markx,marky
+    if not detect_main_menu(im):
+        return False
     for x in range(400,1000):
         for y in range(480,1000):
             if pixel_match(im,x,y,220,115,140,30) and pixel_match(im,x,y+50,220,115,140,30) and (not pixel_match(im,x,y+200,220,115,140,30)):
@@ -66,7 +70,19 @@ def detect_loc(im): #228 117 191 220 115 140
                     return True
     return False
 def detect_comp(im):
-    return False
+    global routcount
+    return ((routcount>300) and detect_main_menu(im))
+def detect_main_menu(im):
+    matchdiamond=False
+    matchplus=False
+    for y in range(0,100):
+        for x in range(760,950):
+            if pixel_match(im,x,y,187,30,72,3):
+                matchdiamond=True
+        for x in range(970,1080):
+            if pixel_match(im,x,y,189,156,130,3):
+                matchplus=True
+    return (matchdiamond and matchplus)
 def drift():
     return random.uniform(10,30)
 def tap(px,py):
@@ -97,14 +113,18 @@ def do_sel():
 def sel_loc():
     print("arrived...")
     tap(markx+10+drift(),marky+drift())
-def do_3sel():
+def do_3sel(im):
+    global routcount
     print("3sel!!!")
-    for k in range(5):
+    while not detect_main_menu(im):
+        im.close()
+        im=do_screenshot()
         for i in range(10):
-                tap(956,1870)
+            tap(956,1870)
         time.sleep(3)
         tap(random.choice((200,540,880)),750+drift())
         time.sleep(5)
+    routcount=0
 def Determine_status(im):
     if detect_selection(im) and (not lastspec):
         do_sel()
@@ -118,8 +138,34 @@ def Determine_status(im):
         print("routine...")
         for i in range(10):
             tap(956,1870)
+def do_screenshot():
+    global need_resize,need_rotate,height,width
+    print("Pull_screenshot...",end=" ")
+    screenshot.pull_screenshot()
+    try:
+        im = Image.open('./autojump.png')
+        success=True
+    except:
+        success=False
+        try:
+            screenshot.pull_screenshot()
+            im = Image.open('./autojump.png')
+            success=True
+        except:
+            print("screenshot_error")
+    if success:
+        if need_rotate:
+            print("Rotating...",end=" ")
+            im=im.transpose(Image.ROTATE_90)
+            width=width+height
+            height=width-height
+            width=width-height
+        if need_resize:
+            print("Resizing...",end=" ")
+            im=im.resize((1080,1920))
+    return im
 def main():
-    global routcount,need_resize,height,width
+    global routcount,need_resize,need_rotate,height,width
     op = yes_or_no('remote adb?')
     if op:
         netpos=raw_input()
@@ -132,7 +178,6 @@ def main():
     screenshot.check_screenshot()
     screenshot.pull_screenshot()
     im = Image.open('./autojump.png')
-#    refimg=Image.open('./comp_ref.bmp')
     width,height=im.size
     need_rotate=False
     need_resize=False
@@ -152,31 +197,11 @@ def main():
     tap(956,1870)
     routcount=0
     while True:
-        print("Pull_screenshot...",end=" ")
-        screenshot.pull_screenshot()
-        try:
-            im = Image.open('./autojump.png')
-            success=True
-        except:
-            success=False
-            try:
-                im.close()
-            except:
-                print("screenshot_error")
-        if success:
-            if need_rotate:
-                print("Rotating...",end=" ")
-                im=im.transpose(Image.ROTATE_90)
-                width=width+height
-                height=width-height
-                width=width-height
-            if need_resize:
-                print("Resizing...,",end=" ")
-                im=im.resize((1080,1920))
-            print("Parsing...",end=" ")
-            Determine_status(im)
-            if (routcount==151) or (routcount==150):  
-                do_3sel()
-    #        time.sleep(random.uniform(0.1, 0.5))
-            im.close()
+        im=do_screenshot()
+        print("Parsing...",end=" ")
+        Determine_status(im)
+        if (not detect_main_menu(im)) and ((routcount==151) or (routcount==150)):  
+            do_3sel(im)
+    #     time.sleep(random.uniform(0.1, 0.5))
+        im.close()
 main()
