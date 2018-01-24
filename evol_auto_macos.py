@@ -121,9 +121,9 @@ def do_3sel(im):
         im=do_screenshot()
         for i in range(10):
             tap(956,1870)
-        time.sleep(3)
+        time.sleep(1.5)
         tap(random.choice((200,540,880)),750+drift())
-        time.sleep(5)
+        time.sleep(3)
     routcount=0
 def Determine_status(im):
     if detect_selection(im) and (not lastspec):
