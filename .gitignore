@@ -1,10 +1,14 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+common/__pycache__/
 *.py[cod]
 *$py.class
 
 # C extensions
 *.so
+
+# snapshot files
+*.png
 
 # Distribution / packaging
 .Python
@@ -99,3 +103,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+*.pyc
+common/__pycache__/screenshot.cpython-36.pyc
+common/__pycache__/screenshot.cpython-36.pyc
