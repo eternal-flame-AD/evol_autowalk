@@ -105,8 +105,8 @@ def tap(px,py):
     )
 #    print(cmd)
 #    print(routcount)
-#    subprocess.call(cmd, startupinfo=si)
-    os.system(cmd)
+    subprocess.Popen(cmd)
+#    os.system(cmd)
 def do_sel():
     print("selecting...")
     tap(781,690-drift())
