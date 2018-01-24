@@ -99,13 +99,13 @@ def tap(px,py):
     si = subprocess.STARTUPINFO()
     si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 #si.wShowWindow = subprocess.SW_HIDE # default
-    cmd = 'cmd /c start /MIN adb shell input tap {x} {y}'.format(
+    cmd = 'adb shell input tap {x} {y}'.format(
         x=px,
         y=py
     )
 #    print(cmd)
 #    print(routcount)
-    subprocess.call(cmd, startupinfo=si)
+    subprocess.Popen(cmd, startupinfo=si)
 #    os.system(cmd)
 def do_sel():
     print("selecting...")
