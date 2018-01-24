@@ -1,3 +1,5 @@
+V1.2
+Shortened wait time for 1 in 3 selections
 ================
 V1.1
 1. Use im.getpixel for better performance
