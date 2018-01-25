@@ -105,7 +105,7 @@ def tap(px,py):
     )
 #    print(cmd)
 #    print(routcount)
-    subprocess.Popen(cmd)
+    subprocess.Popen(cmd,shell=True)
 #·    os.system(cmd)
 def do_sel():
     print("selecting...")
