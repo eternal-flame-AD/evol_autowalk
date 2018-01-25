@@ -12,7 +12,7 @@ import sys
 import time
 #import math
 import random
-#import subprocess
+import subprocess
 from PIL import Image
 #from six.moves import input
 from common import screenshot
@@ -105,8 +105,8 @@ def tap(px,py):
     )
 #    print(cmd)
 #    print(routcount)
-#    subprocess.Popen(cmd)
-    os.system(cmd)
+    subprocess.Popen(cmd)
+#·    os.system(cmd)
 def do_sel():
     print("selecting...")
     tap(781,690-drift())
