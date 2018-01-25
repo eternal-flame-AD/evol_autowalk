@@ -12,7 +12,7 @@ import sys
 import time
 #import math
 import random
-#import subprocess
+import subprocess
 from PIL import Image
 #from six.moves import input
 from common import screenshot
@@ -105,8 +105,8 @@ def tap(px,py):
     )
 #    print(cmd)
 #    print(routcount)
-#    subprocess.Popen(cmd)
-    os.system(cmd)
+    subprocess.Popen(cmd,shell=True)
+#·    os.system(cmd)
 def do_sel():
     print("selecting...")
     tap(781,690-drift())
@@ -121,6 +121,7 @@ def do_3sel(im):
         im=do_screenshot()
         for i in range(10):
             tap(956,1870)
+            time.sleep(0.1)
         time.sleep(1.5)
         tap(random.choice((200,540,880)),750+drift())
         time.sleep(3)
@@ -138,6 +139,7 @@ def Determine_status(im):
         print("routine...")
         for i in range(10):
             tap(956,1870)
+            time.sleep(0.1)
 def do_screenshot():
     global need_resize,need_rotate,height,width
     print("Pull_screenshot...",end=" ")
