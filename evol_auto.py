@@ -168,7 +168,7 @@ def do_screenshot():
     return im
 def main():
     global routcount,need_resize,need_rotate,height,width
-    op = yes_or_no('remote adb?')
+    op = yes_or_no('remote adb?',default=False)
     if op:
         netpos=raw_input()
         cmd = 'adb connect {x}'.format(
