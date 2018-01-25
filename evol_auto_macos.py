@@ -99,7 +99,7 @@ def tap(px,py):
 #    si = subprocess.STARTUPINFO()
 #    si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 #si.wShowWindow = subprocess.SW_HIDE # default
-    cmd = './adb shell input tap {x} {y}'.format(
+    cmd = 'adb shell input tap {x} {y}'.format(
         x=px,
         y=py
     )
