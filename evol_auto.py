@@ -7,7 +7,7 @@ EVOL_auto dependencies
 """
 #from __future__ import print_function, division
 import ctypes
-#import os
+import os
 import sys
 import time
 #import math
@@ -170,7 +170,7 @@ def main():
     global routcount,need_resize,need_rotate,height,width
     op = yes_or_no('remote adb?',default=False)
     if op:
-        netpos=raw_input()
+        netpos=input()
         cmd = 'adb connect {x}'.format(
             x=netpos,
         )
