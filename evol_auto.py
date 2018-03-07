@@ -112,6 +112,7 @@ def tap(px,py):
     #    print(talkcount)
     subprocess.Popen(cmd, startupinfo=si)
     #    os.system(cmd)
+    time.sleep(0.1)
 def do_sel():
     print("selecting...")
     tap(781,690-drift())
@@ -179,7 +180,7 @@ def do_screenshot():
             im=im.resize((1080,1920))
     return im
 def main():
-    global talkcount,need_resize,need_rotate,height,width
+    global talkcount,routcount,need_resize,need_rotate,height,width
     op = yes_or_no('remote adb?',default=False)
     if op:
         netpos=input()
@@ -209,6 +210,7 @@ def main():
     height=height/1920
     tap(956,1870)
     talkcount=0
+    routcount=0
     while True:
         im=do_screenshot()
         print("Parsing...",end=" ")
