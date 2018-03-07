@@ -108,10 +108,10 @@ def tap(px,py):
         x=px,
         y=py
     )
-    #    print(cmd)
-    #    print(talkcount)
+    #print(cmd)
+    #print(talkcount)
     subprocess.Popen(cmd, startupinfo=si)
-    #    os.system(cmd)
+    #os.system(cmd)
     time.sleep(0.1)
 def do_sel():
     print("selecting...")
@@ -141,7 +141,7 @@ def Determine_status(im):
     elif detect_loc(im) and (not lastspec):
         sel_loc()
     elif detect_comp(im) and (not lastspec):
-#        ctypes.windll.user32.MessageBoxW(0, "Current process is complete!", "Complete!", 0)
+        #ctypes.windll.user32.MessageBoxW(0, "Current process is complete!", "Complete!", 0)
         print("Current process is complete!")
         sys.exit()
     elif in_talk(im):
@@ -189,7 +189,7 @@ def main():
         )
         os.system(cmd)
     sel=0
-#    debug.dump_device_info()
+    #debug.dump_device_info()
     screenshot.check_screenshot()
     im=screenshot.pull_screenshot()
     width,height=im.size
@@ -217,6 +217,6 @@ def main():
         Determine_status(im)
         if (not detect_main_menu(im)) and ((talkcount>=15)):  
             do_3sel(im)
-    #     time.sleep(random.uniform(0.1, 0.5))
+        #time.sleep(random.uniform(0.1, 0.5))
         im.close()
 main()
