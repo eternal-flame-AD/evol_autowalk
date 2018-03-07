@@ -5,7 +5,7 @@
 import subprocess
 import os
 import sys
-from PIL import Image
+from PIL import Image,ImageFile
 
 
 # SCREENSHOT_WAY 是截图方法，经过 check_screenshot 后，会自动递减，不需手动修改
@@ -27,12 +27,18 @@ def pull_screenshot():
             binary_screenshot = binary_screenshot.replace(b'\r\n', b'\n')
         elif SCREENSHOT_WAY == 1:
             binary_screenshot = binary_screenshot.replace(b'\r\r\n', b'\n')
+        '''
         f = open('autojump.png', 'wb')
         f.write(binary_screenshot)
         f.close()
+        '''
+        f=ImageFile.Parser()
+        f.feed(binary_screenshot)
+        return f.close()
     elif SCREENSHOT_WAY == 0:
         os.system('adb shell screencap -p /sdcard/autojump.png')
         os.system('adb pull /sdcard/autojump.png .')
+        return Image.open("autojump.png")
 
 
 def check_screenshot():
@@ -46,12 +52,11 @@ def check_screenshot():
         except Exception:
             pass
     if SCREENSHOT_WAY < 0:
-        print('暂不支持当前设备')
+        print('暂不支持当前设备,请检查手机adb是否已经打开并授权')
         sys.exit()
-    pull_screenshot()
     try:
-        Image.open('./autojump.png').load()
+        im=pull_screenshot()
         print('采用方式 {} 获取截图'.format(SCREENSHOT_WAY))
-    except Exception:
+    except:
         SCREENSHOT_WAY -= 1
         check_screenshot()

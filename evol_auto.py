@@ -155,15 +155,13 @@ def Determine_status(im):
 def do_screenshot():
     global need_resize,need_rotate,height,width
     print("Pull_screenshot...",end=" ")
-    screenshot.pull_screenshot()
     try:
-        im = Image.open('./autojump.png')
+        im = screenshot.pull_screenshot()
         success=True
     except:
         success=False
         try:
-            screenshot.pull_screenshot()
-            im = Image.open('./autojump.png')
+            im = screenshot.pull_screenshot()
             success=True
         except:
             print("screenshot_error")
@@ -190,8 +188,7 @@ def main():
     sel=0
 #    debug.dump_device_info()
     screenshot.check_screenshot()
-    screenshot.pull_screenshot()
-    im = Image.open('./autojump.png')
+    im=screenshot.pull_screenshot()
     width,height=im.size
     need_rotate=False
     need_resize=False
