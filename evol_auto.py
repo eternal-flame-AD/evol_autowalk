@@ -58,7 +58,7 @@ def detect_selection(im):
         if pixel_match(im,220,cy,250,125,147,30) and pixel_match(im,680,cy,250,125,147,30) and pixel_match(im,890,cy,250,125,147,30):
             return True
     return False
-def detect_loc(im): #228 117 191 220 115 140
+def detect_loc(im):
     global markx,marky
     if not detect_main_menu(im):
         return False
