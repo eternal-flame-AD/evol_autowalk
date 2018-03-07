@@ -70,8 +70,8 @@ def detect_loc(im):
                     return True
     return False
 def detect_comp(im):
-    global talkcount
-    return ((talkcount>20) and detect_main_menu(im))
+    global routcount
+    return ((routcount>20) and detect_main_menu(im))
 def do_talk():
     for i in range(0,10):
         tap(321+drift(),1443+drift())
