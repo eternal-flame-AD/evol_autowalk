@@ -72,6 +72,13 @@ def detect_loc(im): #228 117 191 220 115 140
 def detect_comp(im):
     global routcount
     return ((routcount>300) and detect_main_menu(im))
+def do_talk():
+    for i in range(0,10):
+        tap(321+drift(),1443+drift())
+def in_talk(im):
+    global routcount
+    routcount+=1
+    return (not detect_main_menu(im)) and (pixel_match(im,912,1819,247,128,151,80))
 def detect_main_menu(im):
     matchdiamond=False
     matchplus=False
@@ -86,33 +93,33 @@ def detect_main_menu(im):
 def drift():
     return random.uniform(10,30)
 def tap(px,py):
-    global lastspec,routcount,need_resize,height,width
+    global lastspec,need_resize,height,width
     if not (px==956):
         lastspec=True
-        routcount=0
     else:
         lastspec=False
-        routcount+=1
     if need_resize:
         px*=width
         py*=height
     si = subprocess.STARTUPINFO()
     si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-#si.wShowWindow = subprocess.SW_HIDE # default
+    #si.wShowWindow = subprocess.SW_HIDE # default
     cmd = 'adb shell input tap {x} {y}'.format(
         x=px,
         y=py
     )
-#    print(cmd)
-#    print(routcount)
+    #    print(cmd)
+    #    print(routcount)
     subprocess.Popen(cmd, startupinfo=si)
-#    os.system(cmd)
+    #    os.system(cmd)
 def do_sel():
     print("selecting...")
     tap(781,690-drift())
+    time.sleep(2)
 def sel_loc():
     print("arrived...")
     tap(markx+10+drift(),marky+drift())
+    time.sleep(2)
 def do_3sel(im):
     global routcount
     print("3sel!!!")
@@ -127,6 +134,7 @@ def do_3sel(im):
         time.sleep(3)
     routcount=0
 def Determine_status(im):
+    global routcount
     if detect_selection(im) and (not lastspec):
         do_sel()
     elif detect_loc(im) and (not lastspec):
@@ -135,7 +143,11 @@ def Determine_status(im):
 #        ctypes.windll.user32.MessageBoxW(0, "Current process is complete!", "Complete!", 0)
         print("Current process is complete!")
         sys.exit()
+    elif in_talk(im):
+        print("Talk...")
+        do_talk()
     else:
+        routcount=0
         print("routine...")
         for i in range(10):
             tap(956,1870)
@@ -202,7 +214,7 @@ def main():
         im=do_screenshot()
         print("Parsing...",end=" ")
         Determine_status(im)
-        if (not detect_main_menu(im)) and ((routcount==151) or (routcount==150)):  
+        if (not detect_main_menu(im)) and ((routcount>=15)):  
             do_3sel(im)
     #     time.sleep(random.uniform(0.1, 0.5))
         im.close()
