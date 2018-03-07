@@ -16,8 +16,8 @@ import subprocess
 from PIL import Image
 #from six.moves import input
 from common import screenshot
-global routcount,markx,marky,lastspec
-routcount=0
+global talkcount,markx,marky,lastspec
+talkcount=0
 def yes_or_no(prompt, true_value='y', false_value='n', default=True):
     """
     prompt connect adb
@@ -70,14 +70,14 @@ def detect_loc(im): #228 117 191 220 115 140
                     return True
     return False
 def detect_comp(im):
-    global routcount
-    return ((routcount>300) and detect_main_menu(im))
+    global talkcount
+    return ((talkcount>20) and detect_main_menu(im))
 def do_talk():
     for i in range(0,10):
         tap(321+drift(),1443+drift())
 def in_talk(im):
-    global routcount
-    routcount+=1
+    global talkcount
+    talkcount+=1
     return (not detect_main_menu(im)) and (pixel_match(im,912,1819,247,128,151,80))
 def detect_main_menu(im):
     matchdiamond=False
@@ -109,7 +109,7 @@ def tap(px,py):
         y=py
     )
     #    print(cmd)
-    #    print(routcount)
+    #    print(talkcount)
     subprocess.Popen(cmd, startupinfo=si)
     #    os.system(cmd)
 def do_sel():
@@ -121,7 +121,7 @@ def sel_loc():
     tap(markx+10+drift(),marky+drift())
     time.sleep(2)
 def do_3sel(im):
-    global routcount
+    global talkcount
     print("3sel!!!")
     while not detect_main_menu(im):
         im.close()
@@ -132,9 +132,9 @@ def do_3sel(im):
         time.sleep(1.5)
         tap(random.choice((200,540,880)),750+drift())
         time.sleep(3)
-    routcount=0
+    talkcount=0
 def Determine_status(im):
-    global routcount
+    global talkcount,routcount
     if detect_selection(im) and (not lastspec):
         do_sel()
     elif detect_loc(im) and (not lastspec):
@@ -144,10 +144,12 @@ def Determine_status(im):
         print("Current process is complete!")
         sys.exit()
     elif in_talk(im):
+        routcount=0
         print("Talk...")
         do_talk()
     else:
-        routcount=0
+        talkcount=0
+        routcount+=1
         print("routine...")
         for i in range(10):
             tap(956,1870)
@@ -177,7 +179,7 @@ def do_screenshot():
             im=im.resize((1080,1920))
     return im
 def main():
-    global routcount,need_resize,need_rotate,height,width
+    global talkcount,need_resize,need_rotate,height,width
     op = yes_or_no('remote adb?',default=False)
     if op:
         netpos=input()
@@ -206,12 +208,12 @@ def main():
     width=width/1080
     height=height/1920
     tap(956,1870)
-    routcount=0
+    talkcount=0
     while True:
         im=do_screenshot()
         print("Parsing...",end=" ")
         Determine_status(im)
-        if (not detect_main_menu(im)) and ((routcount>=15)):  
+        if (not detect_main_menu(im)) and ((talkcount>=15)):  
             do_3sel(im)
     #     time.sleep(random.uniform(0.1, 0.5))
         im.close()
