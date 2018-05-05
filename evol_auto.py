@@ -5,16 +5,13 @@ EVOL_auto dependencies
 2.ADB
     replace the original adb if doesn't work
 """
-#from __future__ import print_function, division
 import ctypes
 import os
 import sys
 import time
-#import math
 import random
 import subprocess
 from PIL import Image
-#from six.moves import input
 from common import screenshot
 global talkcount, markx, marky, lastspec
 talkcount = 0
@@ -47,14 +44,6 @@ def pixel_match(im,
                 target_b,
                 diff,
                 debug=False):
-    """
-    try:
-        im_pixel=im.load()
-    except:
-        return False
-    pixel=im_pixel[target_x,target_y]
-        old method
-    """
     pixel = im.getpixel((target_x, target_y))
     if debug:
         print([target_x, target_y], pixel, [target_r, target_g, target_b])
@@ -97,7 +86,7 @@ def detect_comp(im):
 
 # go through the endless talk
 def do_talk():
-    for i in range(0, 10):
+    for _ in range(0, 10):
         tap(321 + drift(), 1443 + drift())
 
 # returns whether we are in a talk
@@ -162,7 +151,7 @@ def do_3sel(im):
     while not detect_main_menu(im):
         im.close()
         im = do_screenshot()
-        for i in range(10):
+        for _ in range(10):
             tap(956, 1870)
             time.sleep(0.1)
         time.sleep(1.5)
@@ -190,7 +179,7 @@ def Determine_status(im):
         talkcount = 0
         routcount += 1
         print("routine...")
-        for i in range(10):
+        for _ in range(10):
             tap(956, 1870)
             time.sleep(0.1)
 
@@ -228,7 +217,6 @@ def main():
         netpos = input()
         cmd = 'adb connect {x}'.format(x=netpos, )
         os.system(cmd)
-    sel = 0
     screenshot.check_screenshot()
     im = screenshot.pull_screenshot()
     width, height = im.size
@@ -256,7 +244,6 @@ def main():
         Determine_status(im)
         if (not detect_main_menu(im)) and ((talkcount >= 15)):
             do_3sel(im)
-        #time.sleep(random.uniform(0.1, 0.5))
         im.close()
 
 
