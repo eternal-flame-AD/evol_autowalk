@@ -1,5 +1,5 @@
 
-MacOS Preview here: https://github.com/eternal-flame-AD/evol_autowalk/tree/MacOS_preview
+* 2018-5-3：MacOS Support added
 
 * 2018-3-7：加入自动剧情版本的支持，测试环境没有开启自动剧情功能。
 
