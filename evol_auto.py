@@ -53,6 +53,7 @@ def pixel_match(im,
     else:
         return False
 
+
 # we face a selection
 def detect_selection(im):
     if detect_main_menu(im):
@@ -63,6 +64,7 @@ def detect_selection(im):
                     im, 890, cy, 250, 125, 147, 30):
             return True
     return False
+
 
 # if we have arrived and thereis a locator
 def detect_loc(im):
@@ -79,15 +81,18 @@ def detect_loc(im):
                 return True
     return False
 
+
 # whether we have finished all tasks
 def detect_comp(im):
     global routcount
     return ((routcount > 20) and detect_main_menu(im))
 
+
 # go through the endless talk
 def do_talk():
     for _ in range(0, 10):
         tap(321 + drift(), 1443 + drift())
+
 
 # returns whether we are in a talk
 def in_talk(im):
@@ -95,6 +100,7 @@ def in_talk(im):
     talkcount += 1
     return (not detect_main_menu(im)) and (pixel_match(im, 912, 1819, 247, 128,
                                                        151, 80))
+
 
 # we are in the main screen
 def detect_main_menu(im):
@@ -109,9 +115,11 @@ def detect_main_menu(im):
                 matchplus = True
     return (matchdiamond and matchplus)
 
-# add some drift to prevent being detected 
+
+# add some drift to prevent being detected
 def drift():
     return random.uniform(10, 30)
+
 
 # adb tap wrapper
 def tap(px, py):
@@ -132,17 +140,20 @@ def tap(px, py):
         subprocess.Popen(cmd, shell=True)
     time.sleep(0.1)
 
+
 # select one option
 def do_sel():
     print("selecting...")
     tap(781, 690 - drift())
     time.sleep(2)
 
+
 # enter the place we arrived
 def sel_loc():
     print("arrived...")
     tap(markx + 10 + drift(), marky + drift())
     time.sleep(2)
+
 
 # randomly select one choice when we face a 1 in 3 quesion
 def do_3sel(im):
@@ -159,9 +170,12 @@ def do_3sel(im):
         time.sleep(3)
     talkcount = 0
 
+
 '''determine the current status
 sorry it cant detect 1 in 3 selections so
 that one is not included here'''
+
+
 def Determine_status(im):
     global talkcount, routcount
     if detect_selection(im) and (not lastspec):
@@ -182,6 +196,7 @@ def Determine_status(im):
         for _ in range(10):
             tap(956, 1870)
             time.sleep(0.1)
+
 
 # screenshot getter
 def do_screenshot():
