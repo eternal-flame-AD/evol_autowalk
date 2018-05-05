@@ -134,14 +134,13 @@ def tap(px, py):
     if need_resize:
         px *= width
         py *= height
-    si = subprocess.STARTUPINFO()
-    si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-    #si.wShowWindow = subprocess.SW_HIDE # default
     cmd = 'adb shell input tap {x} {y}'.format(x=px, y=py)
-    #print(cmd)
-    #print(talkcount)
-    subprocess.Popen(cmd, startupinfo=si)
-    #os.system(cmd)
+    if "win" in sys.platform:
+        si = subprocess.STARTUPINFO()
+        si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        subprocess.Popen(cmd, startupinfo=si)
+    else:
+        subprocess.Popen(cmd, shell=True)
     time.sleep(0.1)
 
 
